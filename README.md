@@ -13,7 +13,9 @@ The market for open source trash hauling software isn't really a thing. Not much
 
 
 
-Things That Need To Be Done -
+- Things That Need To Be Done -
+
+
 1). Need a Login/Reister System 
 
 2). Need to implement Admin section 
@@ -28,5 +30,8 @@ Things That Need To Be Done -
 
 
 
-Project Completion Date -
+- Project Completion Date -
+
+
+
 1 year - Depending..
