@@ -14,7 +14,13 @@ The market for open source trash hauling software isn't really a thing. Not much
 
 
 Things That Need To Be Done -
-1). Need a Login/Reister System 2). Need to implement Admin section 3). Let the user print off a pdf version of their dump slip for record keeping purposes 4). Let the user delete their account and all data assotacated with their account
+1). Need a Login/Reister System 
+
+2). Need to implement Admin section 
+
+3). Let the user print off a pdf version of their dump slip for record keeping purposes 
+
+4). Let the user delete their account and all data assotacated with their account
 
 
 
