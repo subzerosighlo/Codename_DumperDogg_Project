@@ -14,7 +14,7 @@ Plan on adding these features soon:
 
 Admin dashboard, 
 Customize options, 
-get it to a easy self intstall wizard, 
+ 
 setup docker image for easy spin up for the small time compaines, 
 
                                                                       
