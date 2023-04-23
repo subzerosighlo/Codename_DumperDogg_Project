@@ -96,7 +96,7 @@ $num_dump_tickets = $pdo->query('SELECT COUNT(*) FROM dump_tickets')->fetchColum
 		<a href="dashboard.php?page=<?=$page-1?>"><i class="fas fa-angle-double-left fa-sm"></i></a>
 		<?php endif; ?>
 		<?php if ($page*$records_per_page < $num_dump_tickets): ?>
-		<a href="dashboard.php?page=<?=$page+1?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
+		<a href="dashboard.php?page=<?=htmlspecialchars($page+1)?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
 		<?php endif; ?>
 	</div>
 </div>
