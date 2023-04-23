@@ -50,7 +50,7 @@ $stmt->close();
 				<table>
 					<tr>
 						<td>Username:</td>
-						<td><?=$_SESSION['name']?></td>
+						<td><?=isset($_SESSION['username']) ? $_SESSION['username'] : $_SESSION['name']?></td>
 					</tr>
 					<tr>
 						<td>Password:</td>

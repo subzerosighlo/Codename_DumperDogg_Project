@@ -18,6 +18,7 @@
 					<i class="fas fa-lock"></i>
 				</label>
 				<input type="password" name="password" placeholder="Password" id="password" required>
+        <a href="register.php">Register</a>
 				<input type="submit" value="Login">
 			</form>
 		</div>

@@ -81,12 +81,12 @@ $num_dump_tickets = $pdo->query('SELECT COUNT(*) FROM dump_tickets')->fetchColum
                 <td><?=$dump_ticket['company']?></td>
                 <td><?=$dump_ticket['date']?></td>
                 <td><?=$dump_ticket['material']?></td>
-                <!--
+               
                 <td class="actions">
                     <a href="update.php?id=<?=$dump_ticket['id']?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
                     <a href="delete.php?id=<?=$dump_ticket['id']?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
                 </td>
-                !-->
+                
             </tr>
             <?php endforeach; ?>
         </tbody>
