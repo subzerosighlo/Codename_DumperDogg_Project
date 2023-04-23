@@ -2,7 +2,7 @@
 include 'inc/functions.php';
 $pdo = pdo_connect_mysql();
 $msg = '';
-// Check if the contact id exists, for example update.php?id=1 will get the contact with the id of 1
+// Check if the dump ticket id exists, for example update.php?id=1 will get the dump ticket with the id of 1
 if (isset($_GET['id'])) {
     if (!empty($_POST)) {
         // This part is similar to the create.php, but instead we update a record and not insert
@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
         $msg = 'Updated Successfully!';
         header('Location: dashboard.php');
     }
-    // Get the contact from the contacts table
+    // Get the dump ticket from the dump tickets table
     $stmt = $pdo->prepare('SELECT * FROM dump_tickets WHERE id = ?');
     $stmt->execute([$_GET['id']]);
     $dump_ticket = $stmt->fetch(PDO::FETCH_ASSOC);
