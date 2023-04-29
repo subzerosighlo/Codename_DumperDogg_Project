@@ -4,13 +4,11 @@ include 'main.php';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 // Filters parameters
-$status = isset($_GET['status']) ? $_GET['status'] : '';
-$activation = isset($_GET['activation']) ? $_GET['activation'] : '';
 $role = isset($_GET['role']) ? $_GET['role'] : '';
 // Order by column
 $order = isset($_GET['order']) && $_GET['order'] == 'DESC' ? 'DESC' : 'ASC';
 // Add/remove columns to the whitelist array
-$order_by_whitelist = ['id','username','email','activation_code','role','registered','last_seen'];
+$order_by_whitelist = ['id','username','role'];
 $order_by = isset($_GET['order_by']) && in_array($_GET['order_by'], $order_by_whitelist) ? $_GET['order_by'] : 'id';
 // Number of results per pagination page
 $results_per_page = 20;
@@ -22,26 +20,16 @@ $param2 = $results_per_page;
 $param3 = '%' . $search . '%';
 // SQL where clause
 $where = '';
-$where .= $search ? 'WHERE (username LIKE ? OR email LIKE ?) ' : '';
-// Add filters
-if ($status == 'active') {
-    $where .= $where ? 'AND last_seen > date_sub(now(), interval 1 month) ' : 'WHERE last_seen > date_sub(now(), interval 1 month) ';
-}
-if ($status == 'inactive') {
-    $where .= $where ? 'AND last_seen < date_sub(now(), interval 1 month) ' : 'WHERE last_seen < date_sub(now(), interval 1 month) ';
-}
-if ($activation == 'pending') {
-    $where .= $where ? 'AND activation_code != "activated" ' : 'WHERE activation_code != "activated" ';
-}
+$where .= $search ? 'WHERE (username LIKE ?) ' : '';
 if ($role) {
     $where .= $where ? 'AND role = ? ' : 'WHERE role = ? ';
 }
 // Retrieve the total number of accounts
 $stmt = $link->prepare('SELECT COUNT(*) AS total FROM user_accounts ' . $where);
 if ($search && $role) {
-    $stmt->bind_param('sss', $param3, $param3, $role);
+    $stmt->bind_param('ss', $param3, $role);
 } else if ($search) {
-    $stmt->bind_param('ss', $param3, $param3);
+    $stmt->bind_param('s', $param3);
 } else if ($role) {
     $stmt->bind_param('s', $role);
 }

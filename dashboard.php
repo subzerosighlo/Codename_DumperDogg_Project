@@ -113,9 +113,9 @@ $num_dump_tickets = $pdo->query('SELECT COUNT(*) FROM dump_tickets')->fetchColum
 </div>
 
 <div class="content">
-<?php
+<?=template_header('Read')?>
 
-// Connect to MySQL database
+<?php
 $pdo = pdo_connect_mysql();
 // Get the page via GET request (URL param: page), if non exists default the page to 1
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -128,14 +128,9 @@ $stmt->bindValue(':record_per_page', $records_per_page, PDO::PARAM_INT);
 $stmt->execute();
 // Fetch the records so we can display them in our template.
 $down_truck_board = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// Get the total number of contacts, this is so we can determine whether there should be a next and previous button
-$num_down_trucks_board = $pdo->query('SELECT COUNT(*) FROM down_trucks_board')->fetchColumn();
+
+
 ?>
-
-
-
-
-<?=template_header('Read')?>
 
 <div class="content read">
 	<h2>Current Down Truck List</h2>
@@ -170,14 +165,7 @@ $num_down_trucks_board = $pdo->query('SELECT COUNT(*) FROM down_trucks_board')->
             <?php endforeach; ?>
         </tbody>
     </table>
-	<div class="pagination">
-		<?php if ($page > 1): ?>
-		<a href="dashboard.php?page=<?=$page-1?>"><i class="fas fa-angle-double-left fa-sm"></i></a>
-		<?php endif; ?>
-		<?php if ($page*$records_per_page < $num_down_trucks_board): ?>
-		<a href="dashboard.php?page=<?=htmlspecialchars($page+1)?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
-		<?php endif; ?>
-	</div>
+	
 </div>
 
 <?=template_footer()?>

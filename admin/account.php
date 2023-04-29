@@ -36,7 +36,7 @@ if (isset($_GET['id'])) {
     $page = 'Create';
     if (isset($_POST['submit'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $stmt = $con->prepare('INSERT IGNORE INTO user_accounts (username,password,role) VALUES (?,?,?)');
+        $stmt = $link->prepare('INSERT IGNORE INTO user_accounts (username,password,role) VALUES (?,?,?)');
         $stmt->bind_param('sss', $_POST['username'], $password,  $_POST['role']);
         $stmt->execute();
         header('Location: accounts.php?success_msg=1');
