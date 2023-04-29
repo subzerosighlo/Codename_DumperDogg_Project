@@ -26,6 +26,9 @@ if (!isset($_SESSION['loggedin'])) {
 				<h1>Project DumperDogg</h1>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                <?php if ($_SESSION['role'] == 'Admin'): ?>
+				<a href="admin/index.php" target="_blank"><i class="fas fa-user-cog"></i>Admin</a>
+				<?php endif; ?>
 			</div>
 		</nav>
 		<div class="content">
@@ -110,22 +113,74 @@ $num_dump_tickets = $pdo->query('SELECT COUNT(*) FROM dump_tickets')->fetchColum
 </div>
 
 <div class="content">
-    <?php 
-    include 'inc/quote.php';
-    ?>
-	<div class="container">
-		<h1>Quote</h1>
-		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-			<label for="weight">Weight:</label>
-			<input type="text" id="weight" name="weight">
-			<label for="rpt">Rate Per Ton:</label>
-			<input type="text" id="R_P_T" name="R_P_T">
-            
-			<input type="submit" value="Get Quote">
-            
-		</form>
-        
-        
-        </div>
+<?php
+
+// Connect to MySQL database
+$pdo = pdo_connect_mysql();
+// Get the page via GET request (URL param: page), if non exists default the page to 1
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+// Number of records to show on each page
+$records_per_page = 5;
+// Prepare the SQL statement and get records from our contacts table, LIMIT will determine the page
+$stmt = $pdo->prepare('SELECT * FROM down_trucks_board ORDER BY id LIMIT :current_page, :record_per_page');
+$stmt->bindValue(':current_page', ($page-1)*$records_per_page, PDO::PARAM_INT);
+$stmt->bindValue(':record_per_page', $records_per_page, PDO::PARAM_INT);
+$stmt->execute();
+// Fetch the records so we can display them in our template.
+$down_truck_board = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Get the total number of contacts, this is so we can determine whether there should be a next and previous button
+$num_down_trucks_board = $pdo->query('SELECT COUNT(*) FROM down_trucks_board')->fetchColumn();
+?>
+
+
+
+
+<?=template_header('Read')?>
+
+<div class="content read">
+	<h2>Current Down Truck List</h2>
+	<a href="down/create_down.php" class="create-contact">Add Truck to Down List</a>
+	<table>
+    <thead>
+            <tr>
+                <td>#</td>
+                <td>Truck Number</td>
+                <td>Location</td>
+                <td>Reason</td>
+                <td>Date Down</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($down_truck_board as $down_truck_board): ?>
+            <tr>
+                <td><?=$dump_ticket['id']?></td>
+                <td><?=$down_truck_board['truck_number']?></td>
+                <td><?=$down_truck_board['location']?></td>
+                <td><?=$down_truck_board['reason']?></td>
+                <td><?=$down_truck_board['down_date']?></td>
+               
+                <td class="actions">
+                    <a href="update.php?id=<?=$down_truck_board['id']?>" class="edit"><i class="fas fa-pen fa-xs"></i></a>
+                    <a href="delete.php?id=<?=$down_truck_board['id']?>" class="trash"><i class="fas fa-trash fa-xs"></i></a>
+                    <a href="pdf.php?id=<?=$down_truck_board['id']?>" class="pdf"><i class="fa-solid fa-file-pdf fa-sm" style="color: #28549f;"></i></a>
+                </td>
+                
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+	<div class="pagination">
+		<?php if ($page > 1): ?>
+		<a href="dashboard.php?page=<?=$page-1?>"><i class="fas fa-angle-double-left fa-sm"></i></a>
+		<?php endif; ?>
+		<?php if ($page*$records_per_page < $num_down_trucks_board): ?>
+		<a href="dashboard.php?page=<?=htmlspecialchars($page+1)?>"><i class="fas fa-angle-double-right fa-sm"></i></a>
+		<?php endif; ?>
+	</div>
+</div>
+
+<?=template_footer()?>
+</div>
 	</body>
 </html>

@@ -29,18 +29,35 @@ if (!empty($_POST)) {
 }
 ?>
 <?=template_header('Create')?>
-<link href="style.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-<div class="content update">
+<div class="content create">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 	<h2>Create Dump Ticket</h2>
     <form action="create.php" method="post">
+
+    <label for="truck_number">Truck Number</label>
+    <select name="truck_number" id="truck_number" style="margin-bottom: -30px; margin-left: -50px; margin-top: auto;">
+            <?php
+            // get all trucks from truck database
+            $stmt = $pdo->query('SELECT * FROM trucks');
+            $trucks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            //loop through trucks and create option for each one
+
+            foreach ($trucks as $truck) {
+                echo '<option value="' . $truck['truck_number'] . '">' . $truck['truck_number'] . '</option>';
+            }
+            ?>
+        </select>
         <label for="id">ID</label>
         <label for="load_id">Load ID</label>
+
+
         <input type="text" name="id" placeholder="26" value="auto" id="id">
         <input type="text" name="load_id" placeholder="PW-Load-123" id="load_id">
-        <label for="truck_number">Truck Number</label>
+        
+        
         <label for="gross_weight">Gross Weight</label>
-        <input type="text" name="truck_number" placeholder="PW-301 or WM-289639" id="truck_number">
+        
         <input type="text" name="gross_weight" placeholder="Enter the truck incoming weight" id="gross_weight">
         <label for="tare_weight">Tare Weight</label>
         <label for="company">Company</label>
